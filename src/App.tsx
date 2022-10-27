@@ -1,7 +1,7 @@
 import React from "react"
 import logo from "./logo.svg"
 import "./App.css"
-import CircleSVG from "./components/VisualTimer/VisualTimer"
+import VisualTimer from "./components/VisualTimer/VisualTimer"
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
         >
           Learn React
         </a>
-        <CircleSVG />
+        <VisualTimer />
       </header>
     </div>
   )
