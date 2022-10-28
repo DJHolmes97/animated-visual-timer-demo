@@ -8,7 +8,6 @@ const AnimatedTimer = motion(TimerSVG)
 const VisualTimer = (props: { targetTime: number }) => {
   const { targetTime } = props
   const [minutes, seconds] = useCountdown(targetTime)
-  console.log(`${minutes}:${seconds}`)
 
   return (
     <AnimatedTimer

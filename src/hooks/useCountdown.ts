@@ -8,12 +8,15 @@ const useCountdown = (targetDate: number) => {
   )
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCountDown(countDownDate - new Date().getTime())
-    }, 1000)
+    const interval =
+      countDown > 1000
+        ? setInterval(() => {
+            setCountDown(countDownDate - new Date().getTime())
+          }, 1000)
+        : 0
 
     return () => clearInterval(interval)
-  }, [countDownDate])
+  }, [countDown, countDownDate])
 
   return getReturnValues(countDown)
 }

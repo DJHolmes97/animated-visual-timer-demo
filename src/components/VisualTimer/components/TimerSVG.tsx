@@ -1,11 +1,13 @@
 import * as React from "react"
 import { SVGProps, useEffect } from "react"
 import { motion } from "framer-motion"
+import { formatTimeString } from "../../../helpers/formatTimeString"
 
 const TimerSVG = (
   { minutes, seconds }: { minutes: number; seconds: number },
   props: SVGProps<SVGSVGElement>
 ) => {
+  const timeString = formatTimeString(minutes, seconds)
   useEffect(() => {
     console.log("The Timer has been rerendered")
   }, [])
@@ -61,9 +63,21 @@ const TimerSVG = (
           x={105.372}
           y={123.455}
         >
-          {`${minutes}:${seconds}`}
+          {timeString}
         </motion.tspan>
       </text>
+      <path
+        style={{
+          display: "inline",
+          opacity: 0.35,
+          fill: "none",
+          stroke: "#4936c6",
+          strokeWidth: 10,
+          strokeLinecap: "round",
+        }}
+        d="M203.718 105c0 54.52-44.198 98.718-98.718 98.718S6.282 159.52 6.282 105 50.48 6.282 105 6.282c54.426 0 98.565 44.045 98.717 98.436"
+        transform="translate(-1.282 -1.282)"
+      />
       <motion.path
         initial={{ pathLength: 1 }}
         animate={{
