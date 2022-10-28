@@ -1,13 +1,63 @@
 import * as React from "react"
-import { SVGProps, useEffect } from "react"
-import { motion } from "framer-motion"
+import { SVGProps, useEffect, useState } from "react"
+import { AnimatePresence, motion } from "framer-motion"
 import { formatTimeString } from "../../../helpers/formatTimeString"
+
+const AnimatedTSpan = ({
+  x,
+  y,
+  digit,
+}: {
+  x: number
+  y: number
+  digit: string
+}) => {
+  const [digitState, setDigitState] = useState(digit)
+
+  if (digit !== digitState) {
+    setDigitState(digit)
+  }
+  return (
+    <AnimatePresence>
+      <motion.tspan
+        key={digitState}
+        initial={{ opacity: 0, y: y + 5 }}
+        animate={{ opacity: 1, y: y }}
+        exit={{ opacity: 0, y: y - 5 }}
+        style={{
+          fontStyle: "normal",
+          fontVariant: "normal",
+          fontWeight: 400,
+          fontStretch: "normal",
+          fontSize: "50.8px",
+          fontFamily: "sans-serif",
+          textAlign: "center",
+          textAnchor: "middle",
+          fill: "#4936c6",
+          fillOpacity: 1,
+          stroke: "#4936c6",
+          strokeWidth: 0.264583,
+          strokeDasharray: "none",
+          strokeOpacity: 1,
+        }}
+        x={x}
+        y={y}
+      >
+        {digit}
+      </motion.tspan>
+    </AnimatePresence>
+  )
+}
 
 const TimerSVG = (
   { minutes, seconds }: { minutes: number; seconds: number },
   props: SVGProps<SVGSVGElement>
 ) => {
-  const timeString = formatTimeString(minutes, seconds)
+  const { digitOne, digitTwo, digitThree, digitFour } = formatTimeString(
+    minutes,
+    seconds
+  )
+
   useEffect(() => {
     console.log("The Timer has been rerendered")
   }, [])
@@ -31,6 +81,7 @@ const TimerSVG = (
           textAlign: "center",
           letterSpacing: ".79375px",
           textAnchor: "middle",
+          display: "inline",
           fill: "#4936c6",
           fillOpacity: 1,
           stroke: "#4936c6",
@@ -39,11 +90,65 @@ const TimerSVG = (
           strokeDasharray: "none",
           strokeOpacity: 1,
         }}
-        x={104.975}
+        x={56.146}
         y={123.455}
         transform="translate(-1.282 -1.282)"
       >
-        <motion.tspan
+        <AnimatedTSpan x={56.543} y={123.455} digit={digitOne} />
+      </text>
+      <text
+        xmlSpace="preserve"
+        style={{
+          fontStyle: "normal",
+          fontVariant: "normal",
+          fontWeight: 400,
+          fontStretch: "normal",
+          fontSize: "50.8px",
+          fontFamily: "sans-serif",
+          textAlign: "center",
+          letterSpacing: ".79375px",
+          textAnchor: "middle",
+          display: "inline",
+          fill: "#4936c6",
+          fillOpacity: 1,
+          stroke: "#4936c6",
+          strokeWidth: 0.264583,
+          strokeLinecap: "round",
+          strokeDasharray: "none",
+          strokeOpacity: 1,
+        }}
+        x={86.413}
+        y={123.455}
+        transform="translate(-1.282 -1.282)"
+      >
+        <AnimatedTSpan x={86.81} y={123.455} digit={digitTwo} />
+      </text>
+      <text
+        xmlSpace="preserve"
+        style={{
+          fontStyle: "normal",
+          fontVariant: "normal",
+          fontWeight: 400,
+          fontStretch: "normal",
+          fontSize: "50.8px",
+          fontFamily: "sans-serif",
+          textAlign: "center",
+          letterSpacing: ".79375px",
+          textAnchor: "middle",
+          display: "inline",
+          fill: "#4936c6",
+          fillOpacity: 1,
+          stroke: "#4936c6",
+          strokeWidth: 0.264583,
+          strokeLinecap: "round",
+          strokeDasharray: "none",
+          strokeOpacity: 1,
+        }}
+        x={106.882}
+        y={119.638}
+        transform="translate(-1.282 -1.282)"
+      >
+        <tspan
           style={{
             fontStyle: "normal",
             fontVariant: "normal",
@@ -60,12 +165,66 @@ const TimerSVG = (
             strokeDasharray: "none",
             strokeOpacity: 1,
           }}
-          x={105.372}
-          y={123.455}
+          x={107.279}
+          y={119.638}
         >
-          {timeString}
-        </motion.tspan>
+          {":"}
+        </tspan>
       </text>
+      <text
+        xmlSpace="preserve"
+        style={{
+          fontStyle: "normal",
+          fontVariant: "normal",
+          fontWeight: 400,
+          fontStretch: "normal",
+          fontSize: "50.8px",
+          fontFamily: "sans-serif",
+          textAlign: "center",
+          letterSpacing: ".79375px",
+          textAnchor: "middle",
+          display: "inline",
+          fill: "#4936c6",
+          fillOpacity: 1,
+          stroke: "#4936c6",
+          strokeWidth: 0.264583,
+          strokeLinecap: "round",
+          strokeDasharray: "none",
+          strokeOpacity: 1,
+        }}
+        x={127.326}
+        y={123.455}
+        transform="translate(-1.282 -1.282)"
+      >
+        <AnimatedTSpan x={127.723} y={123.455} digit={digitThree} />
+      </text>
+      <motion.text
+        xmlSpace="preserve"
+        style={{
+          fontStyle: "normal",
+          fontVariant: "normal",
+          fontWeight: 400,
+          fontStretch: "normal",
+          fontSize: "50.8px",
+          fontFamily: "sans-serif",
+          textAlign: "center",
+          letterSpacing: ".79375px",
+          textAnchor: "middle",
+          display: "inline",
+          fill: "#4936c6",
+          fillOpacity: 1,
+          stroke: "#4936c6",
+          strokeWidth: 0.264583,
+          strokeLinecap: "round",
+          strokeDasharray: "none",
+          strokeOpacity: 1,
+        }}
+        x={157.593}
+        y={123.455}
+        transform="translate(-1.282 -1.282)"
+      >
+        <AnimatedTSpan x={157.989} y={123.455} digit={digitFour} />
+      </motion.text>
       <path
         style={{
           display: "inline",
