@@ -4,22 +4,13 @@ import "./App.css"
 import VisualTimer from "./components/VisualTimer/VisualTimer"
 
 function App() {
+  const TEN_MINUTES_IN_MS = 1 * 60 * 1000
+  const NOW_IN_MS = new Date().getTime()
+  const dateTimeAfterTenMinutes = NOW_IN_MS + TEN_MINUTES_IN_MS
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <VisualTimer />
+        <VisualTimer targetTime={dateTimeAfterTenMinutes} />
       </header>
     </div>
   )
