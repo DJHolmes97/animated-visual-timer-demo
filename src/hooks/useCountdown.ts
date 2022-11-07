@@ -1,32 +1,38 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
-const useCountdown = (targetDate: number) => {
-  const countDownDate = new Date(targetDate).getTime()
+const useCountdown = (
+  minutes: number = 0,
+  seconds: number = 0,
+  paused: boolean = true,
+  reset: boolean = false
+) => {
+  const [isPaused, setIsPaused] = useState(paused);
+  const [over, setOver] = useState(false);
+  const [[m, s], setTime] = useState([minutes, seconds]);
 
-  const [countDown, setCountDown] = useState(
-    countDownDate - new Date().getTime()
-  )
+  const tick = () => {
+    if (paused || over) return;
+    if (m === 0 && s === 0) setOver(true);
+    else if (s === 0) {
+      setTime([m - 1, 59]);
+    } else {
+      setTime([m, s - 1]);
+    }
+  };
+
+  if (reset) {
+    setTime([minutes, seconds]);
+    setIsPaused(false);
+    setOver(false);
+    reset = false;
+  }
 
   useEffect(() => {
-    const interval =
-      countDown > 1000
-        ? setInterval(() => {
-            setCountDown(countDownDate - new Date().getTime())
-          }, 1000)
-        : 0
+    const timerID = setInterval(() => tick(), 1000);
+    return () => clearInterval(timerID);
+  });
 
-    return () => clearInterval(interval)
-  }, [countDown, countDownDate])
+  return [m, s];
+};
 
-  return getReturnValues(countDown)
-}
-
-const getReturnValues = (countDown: number) => {
-  // calculate time left
-  const minutes = Math.floor((countDown % (1000 * 60 * 60)) / (1000 * 60))
-  const seconds = Math.floor((countDown % (1000 * 60)) / 1000)
-
-  return [minutes, seconds]
-}
-
-export { useCountdown }
+export { useCountdown };

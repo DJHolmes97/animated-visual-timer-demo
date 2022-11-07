@@ -1,29 +1,34 @@
-import * as React from "react"
-import { SVGProps, useEffect, useState } from "react"
-import { AnimatePresence, motion } from "framer-motion"
-import { formatTimeString } from "../../../helpers/formatTimeString"
+import * as React from "react";
+import { SVGProps, useEffect, useState } from "react";
+import {
+  AnimatePresence,
+  AnimationControls,
+  motion,
+  useAnimation,
+} from "framer-motion";
+import { formatTimeString } from "../../../helpers/formatTimeString";
 
 const AnimatedTSpan = ({
   x,
   y,
   digit,
 }: {
-  x: number
-  y: number
-  digit: string
+  x: number;
+  y: number;
+  digit: string;
 }) => {
-  const [digitState, setDigitState] = useState(digit)
+  const [digitState, setDigitState] = useState(digit);
+  const controls = useAnimation();
 
   if (digit !== digitState) {
-    setDigitState(digit)
+    setDigitState(digit);
   }
   return (
     <AnimatePresence>
       <motion.tspan
         key={digitState}
-        initial={{ opacity: 0, y: y + 5 }}
-        animate={{ opacity: 1, y: y }}
-        exit={{ opacity: 0, y: y - 5 }}
+        initial={{ opacity: 1 }}
+        animate={{ opacity: 1 }}
         style={{
           fontStyle: "normal",
           fontVariant: "normal",
@@ -46,21 +51,59 @@ const AnimatedTSpan = ({
         {digit}
       </motion.tspan>
     </AnimatePresence>
-  )
-}
+  );
+};
+
+const startAnimation = (
+  controls: AnimationControls,
+  updatedDuration: number
+) => {
+  controls.start({
+    pathLength: 0,
+    transition: {
+      duration: updatedDuration,
+      ease: "linear",
+    },
+  });
+};
 
 const TimerSVG = (
-  { minutes, seconds }: { minutes: number; seconds: number },
+  {
+    minutes,
+    seconds,
+    duration,
+    paused = true,
+  }: {
+    minutes: number;
+    seconds: number;
+    duration: number;
+    paused: boolean;
+  },
   props: SVGProps<SVGSVGElement>
 ) => {
   const { digitOne, digitTwo, digitThree, digitFour } = formatTimeString(
     minutes,
     seconds
-  )
+  );
+  const updatedDuration = minutes > 0 ? minutes * 60 + seconds : seconds;
+  console.log(updatedDuration);
 
+  const [isPaused, setIsPaused] = useState(paused);
+  if (isPaused && !paused) {
+    setIsPaused(false);
+  } else if (!isPaused && paused) {
+    setIsPaused(true);
+  }
+  const controls = useAnimation();
   useEffect(() => {
-    console.log("The Timer has been rerendered")
-  }, [])
+    console.log("useEffectBeingCalled");
+
+    if (!isPaused) {
+      startAnimation(controls, updatedDuration);
+    } else {
+      controls.stop();
+    }
+  }, [isPaused]);
   return (
     <svg
       width={784.007}
@@ -239,15 +282,8 @@ const TimerSVG = (
       />
       <motion.path
         initial={{ pathLength: 1 }}
-        animate={{
-          pathLength: [1, 0, 0],
-          opacity: [1, 1, 0],
-        }}
-        transition={{
-          duration: minutes * 60,
-          times: [0, 0.99, 1],
-          ease: "linear",
-        }}
+        animate={controls}
+        transition={{ duration: duration, ease: "linear" }}
         style={{
           fill: "none",
           stroke: "#4936c6",
@@ -258,7 +294,7 @@ const TimerSVG = (
         transform="translate(-1.282 -1.282)"
       />
     </svg>
-  )
-}
+  );
+};
 
-export default TimerSVG
+export default TimerSVG;

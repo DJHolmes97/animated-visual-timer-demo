@@ -1,0 +1,11 @@
+div.swiper-slide.swiper-slide-visible.swiper-slide-active {
+  opacity: 1;
+}
+
+div.swiper-slide.swiper-slide-visible.swiper-slide-next {
+  opacity: 0.25;
+}
+
+div.swiper-slide {
+  opacity: 0.125;
+}
