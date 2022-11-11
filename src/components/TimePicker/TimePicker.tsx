@@ -1,15 +1,24 @@
 // Import Swiper React components
-import { Row, Card, Col } from "react-bootstrap";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { EffectCoverflow } from "swiper";
+import { Row, Card, Col } from "react-bootstrap"
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react"
+import { EffectCoverflow } from "swiper"
 
-import { timePickerPopulator } from "../../helpers/timePickerPopulator";
-import * as Styled from "./TimePicker.styles";
-import "swiper/css/bundle";
-import "swiper/css/effect-coverflow";
-import "./styles.css";
+import { timePickerPopulator } from "../../helpers/timePickerPopulator"
+import * as Styled from "./TimePicker.styles"
+import "swiper/css/bundle"
+import "swiper/css/effect-coverflow"
+import "./styles.css"
+import { useState } from "react"
 
-const HorizontalPicker = ({ times }: { times: number[] }) => {
+const HorizontalPicker = ({
+  times,
+  name,
+  setNewTime,
+}: {
+  times: number[]
+  name: string
+  setNewTime: React.Dispatch<React.SetStateAction<number>>
+}) => {
   return (
     <Swiper
       style={{ maxHeight: "186px", maxWidth: "60px", zIndex: 0 }}
@@ -19,6 +28,8 @@ const HorizontalPicker = ({ times }: { times: number[] }) => {
       grabCursor={true}
       loop={false}
       direction={"vertical"}
+      onSwiper={(swiper) => setNewTime(swiper.realIndex)}
+      onActiveIndexChange={(swiper) => setNewTime(swiper.realIndex)}
       coverflowEffect={{
         rotate: -25,
         stretch: 5,
@@ -30,20 +41,26 @@ const HorizontalPicker = ({ times }: { times: number[] }) => {
     >
       {times.map((time) => {
         return (
-          <SwiperSlide key={time} style={{}}>
+          <SwiperSlide key={time}>
             <Styled.TImeCard className="text-center bg-transparent" body={true}>
               {time}
             </Styled.TImeCard>
           </SwiperSlide>
-        );
+        )
       })}
     </Swiper>
-  );
-};
+  )
+}
 
-const TimePicker = () => {
-  const minutes = timePickerPopulator();
-  const seconds = timePickerPopulator();
+const TimePicker = ({
+  setNewSeconds,
+  setNewMinutes,
+}: {
+  setNewSeconds: React.Dispatch<React.SetStateAction<number>>
+  setNewMinutes: React.Dispatch<React.SetStateAction<number>>
+}) => {
+  const minutes = timePickerPopulator()
+  const seconds = timePickerPopulator()
 
   return (
     <div
@@ -94,7 +111,11 @@ const TimePicker = () => {
               maxHeight: "64px",
             }}
           >
-            <HorizontalPicker times={minutes} />
+            <HorizontalPicker
+              times={minutes}
+              name="minutes"
+              setNewTime={setNewMinutes}
+            />
             <Styled.LabelCard
               className="text-center bg-transparent"
               body={true}
@@ -111,7 +132,11 @@ const TimePicker = () => {
               maxWidth: "200px",
             }}
           >
-            <HorizontalPicker times={seconds} />
+            <HorizontalPicker
+              times={seconds}
+              name="seconds"
+              setNewTime={setNewSeconds}
+            />
             <Styled.LabelCard
               className="text-center bg-transparent"
               body={true}
@@ -132,6 +157,6 @@ const TimePicker = () => {
         </div>
       </div>
     </div>
-  );
-};
-export default TimePicker;
+  )
+}
+export default TimePicker
