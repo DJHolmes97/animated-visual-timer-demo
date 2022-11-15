@@ -13,8 +13,8 @@ const VisualTimer = (props: {
 }) => {
   const { tMinutes, tSeconds, isPaused } = props
 
+
   let [minutes, seconds] = useCountdown(tMinutes, tSeconds, isPaused)
-  console.log(minutes, seconds)
   const countDownTotal = tMinutes * 60 + tSeconds
   return (
     <AnimatedTimer

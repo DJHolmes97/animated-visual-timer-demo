@@ -8,8 +8,12 @@ import * as Styled from "./TimeModal.styles"
 
 const ModalWrapper = ({
   handleSetTime,
+  modalMinutes,
+  modalSeconds,
 }: {
   handleSetTime: (newMinutes: number, newSeconds: number) => void
+  modalMinutes: number
+  modalSeconds: number
 }) => {
   const [show, setShow] = useState(false)
 
@@ -55,6 +59,8 @@ const ModalWrapper = ({
           }}
         >
           <TimePicker
+            initialMinutes={modalMinutes}
+            initialSeconds={modalSeconds}
             setNewMinutes={setNewMinutes}
             setNewSeconds={setNewSeconds}
           />
@@ -69,10 +75,20 @@ const ModalWrapper = ({
 
 const TimeModal = ({
   handleSetTime,
+  modalMinutes,
+  modalSeconds,
 }: {
   handleSetTime: (newMinutes: number, newSeconds: number) => void
+  modalMinutes: number
+  modalSeconds: number
 }) => {
-  return <ModalWrapper handleSetTime={handleSetTime} />
+  return (
+    <ModalWrapper
+      handleSetTime={handleSetTime}
+      modalMinutes={modalMinutes}
+      modalSeconds={modalSeconds}
+    />
+  )
 }
 
 export default TimeModal

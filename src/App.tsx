@@ -11,7 +11,7 @@ import * as Styled from "./App.styles"
 function App() {
   const [isPaused, setIsPaused] = useState(true)
   const [tMinutes, setTMinutes] = useState(0)
-  const [tSeconds, setTSeconds] = useState(0)
+  const [tSeconds, setTSeconds] = useState(59)
 
   const handleSetTime = (newMinutes: number, newSeconds: number) => {
     setTMinutes(newMinutes)
@@ -46,7 +46,11 @@ function App() {
       </Styled.CenteredRow>
       <Row>
         <Col style={{ display: "flex", justifyContent: "flex-end" }}>
-          <TimeModal handleSetTime={handleSetTime} />
+          <TimeModal
+            handleSetTime={handleSetTime}
+            modalMinutes={tMinutes}
+            modalSeconds={tSeconds}
+          />
         </Col>
         <Col>
           <Button

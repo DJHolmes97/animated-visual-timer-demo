@@ -14,10 +14,12 @@ const HorizontalPicker = ({
   times,
   name,
   setNewTime,
+  initialTime,
 }: {
   times: number[]
   name: string
   setNewTime: React.Dispatch<React.SetStateAction<number>>
+  initialTime: number
 }) => {
   return (
     <Swiper
@@ -28,7 +30,10 @@ const HorizontalPicker = ({
       grabCursor={true}
       loop={false}
       direction={"vertical"}
-      onSwiper={(swiper) => setNewTime(swiper.realIndex)}
+      onSwiper={(swiper) => {
+        setNewTime(swiper.realIndex)
+        swiper.slideTo(initialTime)
+      }}
       onActiveIndexChange={(swiper) => setNewTime(swiper.realIndex)}
       coverflowEffect={{
         rotate: -25,
@@ -53,9 +58,13 @@ const HorizontalPicker = ({
 }
 
 const TimePicker = ({
+  initialMinutes,
+  initialSeconds,
   setNewSeconds,
   setNewMinutes,
 }: {
+  initialMinutes: number
+  initialSeconds: number
   setNewSeconds: React.Dispatch<React.SetStateAction<number>>
   setNewMinutes: React.Dispatch<React.SetStateAction<number>>
 }) => {
@@ -114,6 +123,7 @@ const TimePicker = ({
             <HorizontalPicker
               times={minutes}
               name="minutes"
+              initialTime={initialMinutes}
               setNewTime={setNewMinutes}
             />
             <Styled.LabelCard
@@ -135,6 +145,7 @@ const TimePicker = ({
             <HorizontalPicker
               times={seconds}
               name="seconds"
+              initialTime={initialSeconds}
               setNewTime={setNewSeconds}
             />
             <Styled.LabelCard

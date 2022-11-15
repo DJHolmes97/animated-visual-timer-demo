@@ -101,6 +101,16 @@ const TimerSVG = ({
       controls.stop()
     }
   }, [isPaused])
+
+  useEffect(() => {
+    controls.set({
+      pathLength: 1,
+      transition: {
+        duration: duration,
+        ease: "linear",
+      },
+    })
+  }, [duration])
   return (
     <Styled.TimerVector
       viewBox="0 0 207.435 207.435"
