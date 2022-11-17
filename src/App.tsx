@@ -4,12 +4,17 @@ import TimePicker from "./components/TimePicker/TimePicker"
 import VisualTimer from "./components/VisualTimer/VisualTimer"
 import { Card, Row, Button, OverlayTrigger, Col } from "react-bootstrap"
 import TimeModal from "./components/TimeModal/TimeModal"
-import { faPause, faPlay } from "@fortawesome/free-solid-svg-icons"
+import {
+  faPause,
+  faPlay,
+  faRotateRight,
+} from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import * as Styled from "./App.styles"
 
 function App() {
   const [isPaused, setIsPaused] = useState(true)
+  const [isReset, setIsReset] = useState(false)
   const [tMinutes, setTMinutes] = useState(0)
   const [tSeconds, setTSeconds] = useState(59)
 
@@ -33,6 +38,13 @@ function App() {
       setIsPaused(true)
     }
   }
+
+  const handleReset = () => {
+    if (!isReset) {
+      setIsReset(true)
+    }
+  }
+
   return (
     <>
       <Styled.CenteredRow>
@@ -41,10 +53,12 @@ function App() {
             tMinutes={tMinutes}
             tSeconds={tSeconds}
             isPaused={isPaused}
+            isReset={isReset}
+            setIsReset={setIsReset}
           />
         }
       </Styled.CenteredRow>
-      <Row>
+      <Row style={{ marginTop: "5px" }}>
         <Col style={{ display: "flex", justifyContent: "flex-end" }}>
           <TimeModal
             handleSetTime={handleSetTime}
@@ -52,7 +66,7 @@ function App() {
             modalSeconds={tSeconds}
           />
         </Col>
-        <Col>
+        <Col xs={1}>
           <Button
             variant="primary"
             style={{
@@ -65,6 +79,23 @@ function App() {
           >
             <FontAwesomeIcon
               icon={isPaused ? faPlay : faPause}
+              style={{ height: "95%", width: "95%" }}
+            />
+          </Button>
+        </Col>
+        <Col>
+          <Button
+            variant="primary"
+            style={{
+              borderRadius: "50%",
+              height: "4rem",
+              width: "4rem",
+              justifyContent: "center",
+            }}
+            onClick={handleReset}
+          >
+            <FontAwesomeIcon
+              icon={faRotateRight}
               style={{ height: "95%", width: "95%" }}
             />
           </Button>

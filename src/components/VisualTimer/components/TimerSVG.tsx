@@ -73,11 +73,13 @@ const TimerSVG = ({
   seconds,
   duration,
   paused = true,
+  reset = false,
 }: {
   minutes: number
   seconds: number
   duration: number
   paused: boolean
+  reset: boolean
 }) => {
   const { digitOne, digitTwo, digitThree, digitFour } = formatTimeString(
     minutes,
@@ -86,6 +88,12 @@ const TimerSVG = ({
   const updatedDuration = minutes > 0 ? minutes * 60 + seconds : seconds
 
   const [isPaused, setIsPaused] = useState(paused)
+  const [isReset, setIsReset] = useState(reset)
+  if (isReset && !reset) {
+    setIsReset(false)
+  } else if (!isReset && reset) {
+    setIsReset(true)
+  }
   if (isPaused && !paused) {
     setIsPaused(false)
   } else if (!isPaused && paused) {
@@ -93,14 +101,36 @@ const TimerSVG = ({
   }
   const controls = useAnimation()
   useEffect(() => {
-    console.log("useEffectBeingCalled")
-
     if (!isPaused) {
       startAnimation(controls, updatedDuration)
     } else {
       controls.stop()
     }
   }, [isPaused])
+
+  useEffect(() => {
+    console.log("useEffectBeingCalled")
+
+    if (isReset) {
+      controls.stop()
+      controls.set({
+        pathLength: 1,
+        transition: {
+          duration: duration,
+          ease: "linear",
+        },
+      })
+      if (!isPaused) {
+        controls.start({
+          pathLength: 0,
+          transition: {
+            duration: duration,
+            ease: "linear",
+          },
+        })
+      }
+    }
+  }, [isReset])
 
   useEffect(() => {
     controls.set({

@@ -4,9 +4,9 @@ const useCountdown = (
   minutes: number = 0,
   seconds: number = 0,
   paused: boolean = true,
-  reset: boolean = false
+  reset: boolean = false,
+  setIsReset: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
-  const [isPaused, setIsPaused] = useState(paused)
   const [over, setOver] = useState(false)
   const [[m, s], setTime] = useState([minutes, seconds])
   useEffect(() => {
@@ -22,12 +22,17 @@ const useCountdown = (
     }
   }
 
-  if (reset) {
-    setTime([minutes, seconds])
-    setIsPaused(false)
-    setOver(false)
-    reset = false
-  }
+  useEffect(() => {
+    if (reset) {
+      console.log("reset")
+
+      setTime([minutes, seconds])
+      setOver(false)
+      setIsReset(false)
+    }
+  }, [reset])
+
+  console.log(m, s)
 
   useEffect(() => {
     const timerID = setInterval(() => tick(), 1000)

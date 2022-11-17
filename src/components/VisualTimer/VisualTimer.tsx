@@ -10,11 +10,18 @@ const VisualTimer = (props: {
   tMinutes: number
   tSeconds: number
   isPaused: boolean
+  isReset: boolean
+  setIsReset: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
-  const { tMinutes, tSeconds, isPaused } = props
+  const { tMinutes, tSeconds, isPaused, isReset, setIsReset } = props
 
-
-  let [minutes, seconds] = useCountdown(tMinutes, tSeconds, isPaused)
+  let [minutes, seconds] = useCountdown(
+    tMinutes,
+    tSeconds,
+    isPaused,
+    isReset,
+    setIsReset
+  )
   const countDownTotal = tMinutes * 60 + tSeconds
   return (
     <AnimatedTimer
@@ -22,6 +29,7 @@ const VisualTimer = (props: {
       seconds={seconds}
       duration={countDownTotal}
       paused={isPaused}
+      reset={isReset}
     />
   )
 }
